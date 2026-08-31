@@ -26,7 +26,7 @@ export function Navbar() {
       {/* Top Banner */}
       <div className="bg-slate-900 px-4 py-1.5 text-center text-xs font-medium text-slate-200 flex items-center justify-center gap-2">
         <Sparkles className="h-3.5 w-3.5 text-amber-400 animate-pulse" />
-        <span>Free Worldwide Shipping on all orders over $150! Use code <strong>NEXUS10</strong></span>
+        <span>Free Worldwide Shipping on all orders over $150! Use code <strong>SHOPKARA10</strong></span>
       </div>
 
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -34,10 +34,10 @@ export function Navbar() {
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white font-black shadow-md shadow-blue-500/20">
-              N
+              S
             </div>
             <span className="text-xl font-extrabold tracking-tight text-slate-900">
-              NEXUS <span className="text-blue-600 font-light">STORE</span>
+              SHOPKARA
             </span>
           </Link>
 

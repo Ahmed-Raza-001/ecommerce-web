@@ -11,7 +11,7 @@ import { QueryProvider } from "@/components/QueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NEXUS Store | Luxury E-Commerce & Fine Goods",
+  title: "Shopkara | Luxury E-Commerce & Fine Goods",
   description: "Explore curated luxury collections, fine jewelry, electronics, and lifestyle products.",
 };
 

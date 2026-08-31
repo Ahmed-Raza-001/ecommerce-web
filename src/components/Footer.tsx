@@ -55,9 +55,9 @@ export function Footer() {
           <div className="space-y-3">
             <Link href="/" className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-600 text-white font-black">
-                N
+                S
               </div>
-              <span className="text-lg font-bold text-white">NEXUS STORE</span>
+              <span className="text-lg font-bold text-white">SHOPKARA</span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-400">
               Discover curated luxury collections, high-end electronics, and premium lifestyle accessories crafted for the discerning customer.
@@ -101,7 +101,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
-          &copy; {new Date().getFullYear()} NEXUS E-Commerce Storefront. Connected to Symfony API Backend.
+          &copy; {new Date().getFullYear()} Shopkara E-Commerce Storefront. Connected to Symfony API Backend.
         </div>
       </div>
     </footer>

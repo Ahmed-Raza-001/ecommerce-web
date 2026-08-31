@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 • Name: ${customerName || "Customer"}
 • Phone Number: ${customerPhone}
 
-Sent automatically from NEXUS E-Commerce Storefront.`;
+Sent automatically from Shopkara E-Commerce Storefront.`;
 
     console.log(`[WhatsApp Background Order] Sending order alert to ${targetNumber}:`, formattedMessage);
 

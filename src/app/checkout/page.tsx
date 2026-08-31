@@ -32,7 +32,7 @@ export default function CheckoutPage() {
         </div>
         <h1 className="text-3xl font-extrabold text-slate-900">Order Placed Successfully!</h1>
         <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
-          Thank you for shopping with NEXUS Store. Your order confirmation and receipt have been sent to your email.
+          Thank you for shopping with Shopkara. Your order confirmation and receipt have been sent to your email.
         </p>
         <div className="pt-4">
           <Link
