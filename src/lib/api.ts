@@ -1,6 +1,6 @@
 import { Product, Category } from "@/types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000" || "https://e-commerce-backend-uvma.onrender.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://e-commerce-backend-uvma.onrender.com" || "http://localhost:8000" ||;
 
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("en-US", {
