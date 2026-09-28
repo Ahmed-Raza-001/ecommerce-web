@@ -1,6 +1,27 @@
 import { Product, Category } from "@/types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://e-commerce-backend-uvma.onrender.com" || "http://localhost:8000" ||;
+const PRIMARY_API_URL = (process.env.NEXT_PUBLIC_API_URL || "https://e-commerce-backend-uvma.onrender.com").trim().replace(/\/$/, "");
+const LOCAL_API_URL = "http://localhost:8000";
+
+async function fetchFromApi<T = any>(path: string, options?: RequestInit): Promise<T | null> {
+  const candidateBases = Array.from(
+    new Set([PRIMARY_API_URL, LOCAL_API_URL].map((url) => url.replace(/\/$/, "")))
+  );
+
+  for (const baseUrl of candidateBases) {
+    try {
+      const url = `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
+      const res = await fetch(url, { cache: "no-store", ...options });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch {
+      // try next candidate endpoint
+    }
+  }
+
+  return null;
+}
 
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -106,25 +127,12 @@ const DUMMY_PRODUCTS: Product[] = [
 ];
 
 export async function fetchProducts(): Promise<Product[]> {
-  const endpoints = [
-    `${API_BASE_URL}/api/products`,
-    "http://127.0.0.1:8000/api/products",
-    "http://localhost:8000/api/products"
-  ];
-
-  for (const endpoint of endpoints) {
-    try {
-      const res = await fetch(endpoint, { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        const list = Array.isArray(data) ? data : data["hydra:member"] || data.member || data.items || [];
-        if (Array.isArray(list) && list.length > 0) {
-          const mapped = list.map(mapSymfonyProduct);
-          return mapped.filter((p: Product) => p.status === "active");
-        }
-      }
-    } catch (err) {
-      // try next endpoint
+  const data = await fetchFromApi("/api/products");
+  if (data) {
+    const list = Array.isArray(data) ? data : data["hydra:member"] || data.member || data.items || [];
+    if (Array.isArray(list) && list.length > 0) {
+      const mapped = list.map(mapSymfonyProduct);
+      return mapped.filter((p: Product) => p.status === "active");
     }
   }
 
@@ -132,22 +140,9 @@ export async function fetchProducts(): Promise<Product[]> {
 }
 
 export async function fetchProductById(id: string | number): Promise<Product | null> {
-  const endpoints = [
-    `${API_BASE_URL}/api/products/${id}`,
-    `http://127.0.0.1:8000/api/products/${id}`,
-    `http://localhost:8000/api/products/${id}`
-  ];
-
-  for (const endpoint of endpoints) {
-    try {
-      const res = await fetch(endpoint, { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        return mapSymfonyProduct(data);
-      }
-    } catch (err) {
-      // try next endpoint
-    }
+  const data = await fetchFromApi(`/api/products/${id}`);
+  if (data) {
+    return mapSymfonyProduct(data);
   }
 
   const products = await fetchProducts();
@@ -155,24 +150,11 @@ export async function fetchProductById(id: string | number): Promise<Product | n
 }
 
 export async function fetchCategories(): Promise<Category[]> {
-  const endpoints = [
-    `${API_BASE_URL}/api/categories`,
-    "http://127.0.0.1:8000/api/categories",
-    "http://localhost:8000/api/categories"
-  ];
-
-  for (const endpoint of endpoints) {
-    try {
-      const res = await fetch(endpoint, { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        const list = Array.isArray(data) ? data : data["hydra:member"] || data.member || data.items || [];
-        if (Array.isArray(list) && list.length > 0) {
-          return list.map(mapSymfonyCategory);
-        }
-      }
-    } catch (err) {
-      // try next endpoint
+  const data = await fetchFromApi("/api/categories");
+  if (data) {
+    const list = Array.isArray(data) ? data : data["hydra:member"] || data.member || data.items || [];
+    if (Array.isArray(list) && list.length > 0) {
+      return list.map(mapSymfonyCategory);
     }
   }
 
@@ -182,3 +164,4 @@ export async function fetchCategories(): Promise<Category[]> {
     { id: 3, name: "Electronics", slug: "electronics" },
   ];
 }
+
