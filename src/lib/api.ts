@@ -1,23 +1,16 @@
 import { Product, Category } from "@/types";
 
-const PRIMARY_API_URL = (process.env.NEXT_PUBLIC_API_URL || "https://e-commerce-backend-uvma.onrender.com").trim().replace(/\/$/, "");
-const LOCAL_API_URL = "http://localhost:8000";
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || "https://e-commerce-backend-uvma.onrender.com").trim().replace(/\/$/, "");
 
 async function fetchFromApi<T = any>(path: string, options?: RequestInit): Promise<T | null> {
-  const candidateBases = Array.from(
-    new Set([PRIMARY_API_URL, LOCAL_API_URL].map((url) => url.replace(/\/$/, "")))
-  );
-
-  for (const baseUrl of candidateBases) {
-    try {
-      const url = `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
-      const res = await fetch(url, { cache: "no-store", ...options });
-      if (res.ok) {
-        return await res.json();
-      }
-    } catch {
-      // try next candidate endpoint
+  try {
+    const url = `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+    const res = await fetch(url, { cache: "no-store", ...options });
+    if (res.ok) {
+      return await res.json();
     }
+  } catch (err) {
+    // Backend unreachable, fallback to dummy data
   }
 
   return null;
